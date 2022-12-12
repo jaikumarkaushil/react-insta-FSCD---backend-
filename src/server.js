@@ -1,8 +1,12 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 import mongoose from 'mongoose';
 import express from 'express';
 import helmet from 'helmet';
 import favicon from 'serve-favicon';
 import path from 'path';
+// const {graphqlUploadExpress} = require('graphql-upload');
+import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.mjs';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 import { ApolloServerPluginLandingPageGraphQLPlayground, ApolloServerPluginLandingPageDisabled } from 'apollo-server-core';
@@ -51,17 +55,17 @@ db.once('open', () => {
 
 const initApplication = async () => {
 	const app = express();
-	if (environmentVariablesConfig.environment === ENVIRONMENT.PRODUCTION) {
-		app.use(helmet());
-	} else {
-		// Allow GraphQL Playground on development environments
-		app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
-	}
+	// if (environmentVariablesConfig.environment === ENVIRONMENT.PRODUCTION) {
+	// 	app.use(helmet());
+	// } else {
+	// 	// Allow GraphQL Playground on development environments
+	// 	app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
+	// }
 	app.use(cors({ credentials: true }));
 	const __dirname = path.dirname(fileURLToPath(import.meta.url));
 	app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 	app.use('', routesManager);
-
+	app.use(graphqlUploadExpress())
 	const typeDefs = await initTypeDefinition();
 
 	const server = new ApolloServer({ 
@@ -78,11 +82,12 @@ const initApplication = async () => {
 			return error;
 		},
 	});
-
+	
 	await server.start();
 
 	server.applyMiddleware({ app });
-
+	
+	
 	app.use((req, res) => {
 		res.status(404).send('404'); // eslint-disable-line no-magic-numbers
 	});

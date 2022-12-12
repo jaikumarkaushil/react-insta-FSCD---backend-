@@ -10,8 +10,8 @@ import { securityVariablesConfig } from '../../config/appConfig.js';
  * @param {string}	uuid		- An uuid token
  * @returns	{string}			- Json Web Token
  */
-export const createAuthToken = (email, isAdmin, isActive, uuid) => {
-	return jwt.sign({ email, isAdmin, isActive, uuid }, securityVariablesConfig.secret, { expiresIn: securityVariablesConfig.timeExpiration });
+export const createAuthToken = (email, isActive, id) => {
+	return jwt.sign({ email, isActive, id }, securityVariablesConfig.secret, { expiresIn: securityVariablesConfig.timeExpiration });
 };
 
 /**

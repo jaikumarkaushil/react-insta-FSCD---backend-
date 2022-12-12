@@ -6,6 +6,7 @@ const routesManager = Router();
  */
 routesManager.get('/', (req, res) => {
 	const status = 200;
+	console.log(status)
 	res.status(status).end();
 });
 

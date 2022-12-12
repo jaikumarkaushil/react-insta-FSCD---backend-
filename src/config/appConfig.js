@@ -28,7 +28,7 @@ export const environmentVariablesConfig = Object.freeze({
 	mongoDNSseedlist: process.env.MONGO_DNS_SEEDLIST_CONNECTION || '',
 	dbHost: process.env.MONGO_HOST || 'localhost',
 	dbPort: process.env.MONGO_PORT || '27017',
-	database: process.env.MONGO_DB || 'boilerplate_database',
+	database: process.env.MONGO_DB || 'react-insta',
 	mongoUser: process.env.MONGO_USER || '',
 	mongoPass: process.env.MONGO_PASS || '',
 	environment: (process.env.ENVIRONMENT === ENVIRONMENT.DEVELOPMENT) ? ENVIRONMENT.DEVELOPMENT : ENVIRONMENT.PRODUCTION,
